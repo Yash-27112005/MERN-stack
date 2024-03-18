@@ -1,7 +1,7 @@
 const { json } = require("express");
 const User = require("../models/user-model");
 const bcrypt = require("bcryptjs");
-
+const jwt = require("jsonwebtoken");
 const home = async (req, res) => {
   try {
     res.status(200).send("hi im yash in router / controller");
@@ -28,10 +28,14 @@ const register = async (req, res) => {
       username,
       email,
       phone,
-      password
-    });
+      password,
+    }); 
 
-    res.status(200).json({ msg: userCreated });
+    res.status(201).json({
+      msg: "Registration successful.",
+      token: await userCreated.generateToken(),
+      userId: userCreated._id.toString(),
+    });
   } catch (error) {
     res.status(500).json("Internal server error");
   }
