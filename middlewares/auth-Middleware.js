@@ -9,7 +9,7 @@ const authMiddleware = async (req, res, next) => {
   }
 
   const jwtToken = token.replace("Bearer", "").trim();
-  console.log(" token form auth middleware", jwtToken);
+  // console.log(" token form auth middleware", jwtToken);
 
   try {
     const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
@@ -17,8 +17,8 @@ const authMiddleware = async (req, res, next) => {
     const userData = await User.findOne({ email: isVerified.email }).select({
       password: 0,
     });
-    console.log(userData);
-    
+    // console.log(userData);
+
     req.user = userData;
     req.token = token;
     req.userID = userData._id;
